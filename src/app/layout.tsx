@@ -9,7 +9,11 @@ const poppins = Poppins({
 
 export const metadata: Metadata = {
   title: "White House Premier 6",
-  description: "White House Premier adalah hunian eksklusif yang menawarkan kenyamanan modern, desain elegan, dan lokasi strategis untuk gaya hidup premium by create next app",
+  description:
+    "White House Premier adalah hunian eksklusif yang menawarkan kenyamanan modern, desain elegan, dan lokasi strategis untuk gaya hidup premium",
+  icons: {
+    icon: "/favicon.ico",
+  },
 };
 
 export default function RootLayout({
@@ -19,10 +23,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${poppins.className} antialiased`}>
-        {children}
-      </body>
+      <body className={`${poppins.className} antialiased`}>{children}</body>
     </html>
   );
 }
