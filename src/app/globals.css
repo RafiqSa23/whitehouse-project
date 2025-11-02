@@ -3,6 +3,10 @@
 
 @custom-variant dark (&:is(.dark *));
 
+html{
+  scroll-behavior:smooth;
+}
+
 :root {
   --color-primary:#162751;
   --color-secondary:#D3AF37;
@@ -59,7 +63,6 @@
 .text-third {
   color: var(--color-third);
 }
-
 
 @theme inline {
   --radius-sm:calc(var(--radius) - 4px);

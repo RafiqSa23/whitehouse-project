@@ -4,7 +4,6 @@ import React from "react";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -13,72 +12,92 @@ import Image from "next/image";
 import { rumahData } from "@/lib/rumahData";
 import { useState } from "react";
 import Link from "next/link";
+import { Icon } from "@iconify/react";
 
 const Type = () => {
   const [showAll, setShowAll] = useState(false);
 
   return (
-    <section id="type">
-      <div className="bg-primary mx-auto px-20 py-30">
-        <div className=" text-center mb-10 text-4xl font-bold text-secondary">
-          <h1>Type</h1>
+    <section id="type" className="bg-primary py-20">
+      <div className="mx-auto max-w-7xl px-3 sm:px-6 lg:px-8">
+        {/* Judul */}
+        <div className="text-center mb-12">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-secondary tracking-wide">
+            Type
+          </h1>
         </div>
+
+        {/* Grid Card */}
         <div
-          className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 transition-all duration-500 ${
-            showAll ? "max-h-full" : "max-h-[1400px] overflow-hidden"
-          }`}
+          className={`grid gap-6 sm:gap-8 transition-all duration-500 
+          grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 px-2 sm:px-4 lg:px-0
+          `}
         >
           {rumahData.map((rumah, index) => (
             <Card
               key={rumah.id}
-              className={`overflow-hidden shadow-lg transition-all duration-500  ${
-                !showAll && index >= 4 ? "hidden" : "block"
+              className={`bg-secondary overflow-hidden rounded-2xl shadow-lg border-0 hover:shadow-2xl transition-all duration-300 ${
+                !showAll && index >= 6 ? "hidden" : "block"
               }`}
             >
-              <div className="relative w-full h-48">
-                <Image
-                  src={rumah.img}
-                  alt={rumah.name}
-                  fill
-                  className="object-cover"
-                />
-              </div>
-              <CardHeader>
-                <CardTitle>{rumah.name}</CardTitle>
-                <CardDescription>{rumah.desc}</CardDescription>
+              {/* Title */}
+              <CardHeader className="pb-2">
+                <CardTitle className="text-lg font-bold text-gray-900 text-center">
+                  {rumah.name}
+                </CardTitle>
               </CardHeader>
+              {/* Gambar */}
+              <div className="relative w-full aspect-[4/3] px-4 py-2">
+                <div className="relative w-full h-full rounded-xl overflow-hidden ">
+                  {/* aspect-[4/3] biar tinggi proporsional dan responsif */}
+                  <Image
+                    src={rumah.img}
+                    alt={rumah.name}
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+              </div>
+              
+
+              {/* Isi Card */}
               <CardContent>
-                <p className="text-lg font-semibold text-primary">
-                  Rp {rumah.price.toLocaleString("id-ID")}
+                <p className="text-lg md:text-xl font-bold text-gray-900">
+                  IDR {rumah.price.toLocaleString("id-ID", { minimumFractionDigits: 0 })}
                 </p>
-                <p className="text-sm text-gray-500">
-                  {new Date(rumah.date).toLocaleDateString("id-ID", {
-                    year: "numeric",
-                    month: "long",
-                    day: "numeric",
-                  })}
+                <p className="text-sm text-gray-800 mb-4">
+                  Luas Rumah : <span className="font-semibold">{rumah.luas}</span>
                 </p>
-                <div className="mt-4 flex justify-between gap-8">
+
+                {/* Tombol */}
+                <div className="flex justify-center sm:flex-row gap-3 sm:gap-4">
                   <Link
-                    href={"#home"}
-                    className="bg-teal-500 px-4 py-2 rounded-md text-white hover:bg-teal-600"
+                    href={'/type/' + rumah.id}
+                    className="flex-1 bg-[#0D1B4C] text-center py-2 rounded-md text-white hover:bg-[#1B2A6B] transition-colors"
                   >
                     Detail
                   </Link>
                   <Link
-                    href={"/:id"}
-                    className="bg-yellow-400 px-4 py-2 rounded-md text-white hover:bg-yellow-600 text-sm"
+                    href={"#contactus"}
+                    className="w-1/2 flex-1 bg-[#0D1B4C] text-center py-2 rounded-md text-white hover:bg-[#1B2A6B] transition-colors text-sm flex items-center justify-center gap-1"
                   >
                     Info Selengkapnya
+                    <Icon icon="logos:whatsapp-icon" className="w-5 h-5" />
                   </Link>
                 </div>
               </CardContent>
             </Card>
           ))}
         </div>
-        {!showAll && rumahData.length > 4 && (
-          <div className="flex justify-center mt-8">
-            <Button onClick={() => setShowAll(true)} variant="secondary">
+
+        {/* Tombol "Munculkan lebih banyak" */}
+        {!showAll && rumahData.length > 3 && (
+          <div className="flex justify-center mt-10">
+            <Button
+              onClick={() => setShowAll(true)}
+              variant="secondary"
+              className="bg-secondary text-primary font-semibold hover:bg-secondary/90"
+            >
               Munculkan lebih banyak
             </Button>
           </div>

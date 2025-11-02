@@ -15,20 +15,13 @@ const Home = () => {
       <div className="relative z-10 text-center text-gold px-4">
         <div className="flex justify-center">
           <Image
-            src={"/logo.png"}
+            src={"/logohome.png"}
             alt="About Image"
-            width={200}
-            height={200}
+            width={400}
+            height={400}
             className="justify-center"
           />
         </div>
-        <h1 className="text-5xl md:text-6xl font-bold mb-2 text-yellow-500">
-          White House Premier
-        </h1>
-        <p className="text-lg md:text-xl mb-6 text-yellow-500">
-          Hunian modern dengan sentuhan klasik elegan di lokasi strategis
-          Jakarta.
-        </p>
         <Link
           href={"#type"}
           className="bg-secondary hover:bg-amber-400 text-white px-6 py-3 rounded-full font-semibold transition"

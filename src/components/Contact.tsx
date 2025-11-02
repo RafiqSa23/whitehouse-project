@@ -2,18 +2,15 @@ import React from "react";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
-  CardFooter,
-  CardAction,
 } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const Contact = () => {
   return (
     <section id="contactus">
-      <div className="bg-primary text-white mx-auto py-30 px-20">
+      <div className="bg-primary text-white mx-auto py-20 max-w-7xl px-3 sm:px-6 lg:px-8">
         <div className="text-4xl font-bold justify-center items-center text-center text-secondary">
           <h1>Contact Us</h1>
         </div>
