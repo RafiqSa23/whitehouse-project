@@ -3,80 +3,72 @@ generator client {
 }
 
 datasource db {
-  provider   = "postgresql"
-  url        = env("DATABASE_URL")
-  directUrl  = env("DIRECT_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 model User {
-  id          String           @id @default(uuid())
-  nama        String           @db.VarChar(100)
-  username    String           @unique @db.VarChar(58)
-  password    String           @db.VarChar(255)
-  role        Role
-  is_active   Boolean          @default(true)
-  created_at  DateTime         @default(now())
-  updated_at  DateTime         @updatedAt
-
-  // Relations
-  loginActivities LoginActivity[]  @relation("UserLoginActivities")
+  id              Int              @id @default(autoincrement())
+  nama            String           @db.VarChar(100)
+  username        String           @unique @db.VarChar(58)
+  password        String           @db.VarChar(255)
+  role            Role
+  is_active       Boolean          @default(true)
+  created_at      DateTime         @default(now())
+  updated_at      DateTime         @updatedAt
+  Gambar          String?          @db.VarChar
   berandaPages    HalamanBeranda[] @relation("UserBerandaPages")
+  loginActivities LoginActivity[]  @relation("UserLoginActivities")
   houseTypes      TypeRumah[]      @relation("UserHouseTypes")
 
   @@map("user")
 }
 
 model LoginActivity {
-  id          Int         @id @default(autoincrement())
-  userId      String
-  tanggal     DateTime    @default(now())
-  status      LoginStatus
+  id      Int         @id @default(autoincrement())
+  userId  Int
+  tanggal DateTime    @default(now())
+  status  LoginStatus
+  user    User        @relation("UserLoginActivities", fields: [userId], references: [id], onDelete: Cascade)
 
-  // Relations
-  user User @relation("UserLoginActivities", fields: [userId], references: [id], onDelete: Cascade)
-
-  @@map("login_activity")
   @@index([userId, tanggal])
   @@index([tanggal])
   @@index([status])
+  @@map("login_activity")
 }
 
 model HalamanBeranda {
-  id          Int    @id @default(autoincrement())
-  gambar      String @db.VarChar(255)
-  userId      String
-
-  // Relations
-  user User @relation("UserBerandaPages", fields: [userId], references: [id], onDelete: Cascade)
+  id     Int    @id @default(autoincrement())
+  nama   String @db.VarChar(100)
+  gambar String @db.VarChar(255)
+  userId Int
+  user   User   @relation("UserBerandaPages", fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("halaman_beranda")
 }
 
 model TypeRumah {
-  id            Int               @id @default(autoincrement())
-  namaType      TypeRumahEnum
-  harga         Decimal           @db.Decimal(15, 2)
-  luasBangunan  String            @db.VarChar(50)
-  deskripsi     String            @db.VarChar(255)
-  userId        String
+  id           Int               @id @default(autoincrement())
+  namaType     TypeRumahEnum
+  harga        Decimal           @db.Decimal(15, 2)
+  luasBangunan String            @db.VarChar(50)
+  deskripsi    String            @db.Text
+  userId       Int
+  user         User              @relation("UserHouseTypes", fields: [userId], references: [id], onDelete: Cascade)
+  images       TypeRumahGambar[] @relation("HouseImages")
 
-  // Relations
-  user   User               @relation("UserHouseTypes", fields: [userId], references: [id], onDelete: Cascade)
-  images TypeRumahGambar[]  @relation("HouseImages")
-
-  @@map("type_rumah")
   @@index([namaType])
   @@index([harga])
+  @@map("type_rumah")
 }
 
 model TypeRumahGambar {
-  id        Int       @id @default(autoincrement())
-  typeId    Int
-  gambar    String    @db.VarChar(255)
-  urutan    Int       @default(1)
-
-  // Relations
-  type TypeRumah @relation("HouseImages", fields: [typeId], references: [id], onDelete: Cascade)
+  id     Int       @id @default(autoincrement())
+  typeId Int
+  gambar String    @db.VarChar(255)
+  urutan Int       @default(1)
+  type   TypeRumah @relation("HouseImages", fields: [typeId], references: [id], onDelete: Cascade)
 
   @@map("type_rumah_gambar")
 }

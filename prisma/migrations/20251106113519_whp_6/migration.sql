@@ -9,7 +9,7 @@ CREATE TYPE "TypeRumahEnum" AS ENUM ('Type_Luxury', 'Type_Premium', 'Type_Premiu
 
 -- CreateTable
 CREATE TABLE "user" (
-    "id" TEXT NOT NULL,
+    "id" SERIAL NOT NULL,
     "nama" VARCHAR(100) NOT NULL,
     "username" VARCHAR(58) NOT NULL,
     "password" VARCHAR(255) NOT NULL,
@@ -17,6 +17,7 @@ CREATE TABLE "user" (
     "is_active" BOOLEAN NOT NULL DEFAULT true,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
+    "Gambar" VARCHAR,
 
     CONSTRAINT "user_pkey" PRIMARY KEY ("id")
 );
@@ -24,7 +25,7 @@ CREATE TABLE "user" (
 -- CreateTable
 CREATE TABLE "login_activity" (
     "id" SERIAL NOT NULL,
-    "userId" TEXT NOT NULL,
+    "userId" INTEGER NOT NULL,
     "tanggal" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "status" "LoginStatus" NOT NULL,
 
@@ -35,7 +36,7 @@ CREATE TABLE "login_activity" (
 CREATE TABLE "halaman_beranda" (
     "id" SERIAL NOT NULL,
     "gambar" VARCHAR(255) NOT NULL,
-    "userId" TEXT NOT NULL,
+    "userId" INTEGER NOT NULL,
 
     CONSTRAINT "halaman_beranda_pkey" PRIMARY KEY ("id")
 );
@@ -47,7 +48,7 @@ CREATE TABLE "type_rumah" (
     "harga" DECIMAL(15,2) NOT NULL,
     "luasBangunan" VARCHAR(50) NOT NULL,
     "deskripsi" VARCHAR(255) NOT NULL,
-    "userId" TEXT NOT NULL,
+    "userId" INTEGER NOT NULL,
 
     CONSTRAINT "type_rumah_pkey" PRIMARY KEY ("id")
 );
