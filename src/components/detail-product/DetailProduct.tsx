@@ -58,9 +58,9 @@ const DetailProduct: React.FC<DetailProductProps> = ({ rumah }) => {
       }
 
       return (
-        <p key={index} className="text-white">
+        <div key={index} className="text-white">
           {line}
-        </p>
+        </div>
       );
     });
   };
@@ -69,6 +69,8 @@ const DetailProduct: React.FC<DetailProductProps> = ({ rumah }) => {
   const whatsappMessage = `Halo, saya tertarik dengan type ${formatTypeName(
     rumah.namaType
   )} - ${formatCurrency(Number(rumah.harga))}`;
+
+  // no Wa
   const whatsappUrl = `https://wa.me/6281234567890?text=${encodeURIComponent(
     whatsappMessage
   )}`;
@@ -163,7 +165,9 @@ const DetailProduct: React.FC<DetailProductProps> = ({ rumah }) => {
                 </span>
               </p>
               <h3 className="font-bold text-lg mt-4 text-white">Deskripsi :</h3>
-              <p className="text-white">{formatDescription(rumah.deskripsi)}</p>
+              <div className="text-white">
+                {formatDescription(rumah.deskripsi)}
+              </div>
             </div>
           </div>
 

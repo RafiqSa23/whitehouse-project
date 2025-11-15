@@ -169,7 +169,7 @@ export default function UsersPage() {
                 <TableHead>Username</TableHead>
                 <TableHead>Status</TableHead>
                 <TableHead>Role</TableHead>
-                <TableHead className="text-center w-[250px]">Aksi</TableHead>
+                <TableHead className="text-center w-[250px]">Action</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>

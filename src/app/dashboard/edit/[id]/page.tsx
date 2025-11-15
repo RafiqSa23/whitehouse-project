@@ -102,7 +102,7 @@ export default function EditHalamanBerandaPage() {
     if (id) {
       fetchData();
     }
-  }, [id, fetchData]); // Perbaikan: Tambahkan fetchData ke dependency array
+  }, [id, fetchData]);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -156,7 +156,7 @@ export default function EditHalamanBerandaPage() {
         confirmButtonText: "OK",
       });
 
-      router.push("/dashboard/halaman-beranda");
+      router.push("/dashboard/");
     } catch (error) {
       console.error("Error updating section:", error);
       Swal.fire("Error", "Gagal mengupdate section", "error");
@@ -218,7 +218,7 @@ export default function EditHalamanBerandaPage() {
             </div>
             <Button
               variant="outline"
-              onClick={() => router.push("/dashboard/halaman-beranda")}
+              onClick={() => router.push("/dashboard/")}
             >
               Kembali
             </Button>
@@ -297,7 +297,7 @@ export default function EditHalamanBerandaPage() {
                     <Button
                       type="button"
                       variant="outline"
-                      onClick={() => router.push("/dashboard/halaman-beranda")}
+                      onClick={() => router.push("/dashboard/")}
                     >
                       Batal
                     </Button>
