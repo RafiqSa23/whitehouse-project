@@ -4,9 +4,6 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect } from "react";
-import { Button } from "@/components/ui/button";
-import { Home } from "lucide-react";
-import { Icon } from "@iconify/react";
 
 const NavbarDetail = () => {
   const [, setScrolled] = useState(false);

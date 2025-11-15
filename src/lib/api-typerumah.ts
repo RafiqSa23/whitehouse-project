@@ -2,17 +2,12 @@ import {
   TypeRumah,
   CreateTypeRumahRequest,
   UpdateTypeRumahRequest,
-} from "../types/supabase";
+} from "@/types/supabase";
 
 const API_BASE = "/api/typerumah";
 
 export async function getTypeRumahById(id: number): Promise<TypeRumah> {
-  const baseUrl =
-    process.env.NODE_ENV === "production"
-      ? `https://${process.env.VERCEL_URL}`
-      : "http://localhost:3000";
-
-  const apiUrl = `${baseUrl}${API_BASE}/${id}`;
+  const apiUrl = `${API_BASE}/${id}`;
 
   console.log(`🔄 Fetching from: ${apiUrl}`);
 

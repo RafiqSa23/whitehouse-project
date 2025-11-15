@@ -1,9 +1,5 @@
 import { NextResponse } from "next/server";
 
-/**
- * API Logout
- * - Menghapus cookie auth_token agar sesi berakhir
- */
 export async function POST() {
   try {
     const response = NextResponse.json(

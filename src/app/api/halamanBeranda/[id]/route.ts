@@ -5,15 +5,16 @@ const prisma = new PrismaClient();
 
 export async function PUT(
   req: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const body = await req.json();
     const { nama, gambar } = body;
-    const id = parseInt(params.id);
+    const { id } = await params;
+    const numericId = parseInt(id);
 
     const halamanBeranda = await prisma.halamanBeranda.update({
-      where: { id },
+      where: { id: numericId },
       data: {
         nama,
         gambar,
@@ -39,13 +40,14 @@ export async function PUT(
 
 export async function DELETE(
   req: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const id = parseInt(params.id);
+    const { id } = await params;
+    const numericId = parseInt(id);
 
     await prisma.halamanBeranda.delete({
-      where: { id },
+      where: { id: numericId },
     });
 
     return NextResponse.json({ message: "Data berhasil dihapus" });

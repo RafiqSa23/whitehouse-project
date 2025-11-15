@@ -2,7 +2,7 @@
 
 import React from "react";
 import Image from "next/image";
-import { MapPin, MapPinned, Dumbbell, Bike, Waves } from "lucide-react";
+import { MapPin, MapPinned } from "lucide-react";
 import { locItems } from "@/lib/locItems";
 import { Icon } from "@iconify/react";
 

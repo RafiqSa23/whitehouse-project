@@ -84,7 +84,7 @@ export async function POST(req: Request): Promise<NextResponse> {
       );
     }
 
-    // 🔐 Buat JWT token (30 menit = 1800 detik)
+    // 🔐 Buat JWT token (10 menit = 1800 detik)
     const token = await new SignJWT({
       id: user.id,
       username: user.username,
@@ -92,7 +92,7 @@ export async function POST(req: Request): Promise<NextResponse> {
       role: user.role,
     })
       .setProtectedHeader({ alg: "HS256" })
-      .setExpirationTime("30m")
+      .setExpirationTime("10m")
       .sign(new TextEncoder().encode(process.env.SECRET_KEY!));
 
     // Record login Success
@@ -100,7 +100,6 @@ export async function POST(req: Request): Promise<NextResponse> {
 
     console.log("✅ LOGIN SUCCESS - Token created for user:", user.username);
 
-    // ✅ PERBAIKAN: Buat response JSON dulu
     const responseData = {
       message: "Login Berhasil",
       user: {
@@ -112,15 +111,13 @@ export async function POST(req: Request): Promise<NextResponse> {
       token: token,
     };
 
-    // ✅ PERBAIKAN: Buat response dengan data
     const response = NextResponse.json(responseData, { status: 200 });
 
-    // ✅ PERBAIKAN: Set cookie setelah response dibuat
     response.cookies.set("auth_token", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       path: "/",
-      maxAge: 30 * 60, // 30 menit
+      maxAge: 10 * 60,
       sameSite: "lax",
     });
 
