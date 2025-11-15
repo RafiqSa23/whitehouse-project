@@ -1,53 +1,58 @@
+"use client";
+
 import DetailProduct from "@/components/detail-product/DetailProduct";
 import NavbarDetail from "@/components/navbar-detail/NavbarDetail";
-import { notFound } from "next/navigation";
 import { getTypeRumahById } from "@/lib/api-typerumah";
+import { TypeRumah } from "@/types/supabase";
+import { useParams, notFound } from "next/navigation";
+import { useEffect, useState } from "react";
 
-interface Props {
-  params: Promise<{
-    id: string;
-  }>;
-}
-
-export default async function Page({ params }: Props) {
-  const { id } = await params;
+export default function Page() {
+  const params = useParams();
+  const id = params.id as string;
+  const [rumah, setRumah] = useState<TypeRumah | null>(null);
+  const [loading, setLoading] = useState(true);
 
   const parsedId = parseInt(id);
 
-  if (isNaN(parsedId)) {
-    console.log("❌ Invalid ID");
-    notFound();
-  }
+  useEffect(() => {
+    if (isNaN(parsedId)) {
+      setLoading(false);
+      return;
+    }
 
-  try {
-    const rumah = await getTypeRumahById(parsedId);
+    const fetchData = async () => {
+      try {
+        console.log("🔄 Fetching data for ID:", parsedId);
+        const data = await getTypeRumahById(parsedId);
+        console.log("✅ Data received:", data);
+        setRumah(data);
+      } catch (error) {
+        console.error("❌ Error fetching data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
+    fetchData();
+  }, [parsedId]);
+
+  if (loading) {
     return (
-      <div className="bg-primary min-h-screen">
-        <NavbarDetail />
-        <DetailProduct rumah={rumah} />
+      <div className="bg-primary min-h-screen flex items-center justify-center">
+        <div className="text-white">Loading...</div>
       </div>
     );
-  } catch (error) {
+  }
+
+  if (!rumah || isNaN(parsedId)) {
     notFound();
   }
-}
 
-export async function generateMetadata({ params }: Props) {
-  const { id } = await params;
-
-  const parsedId = parseInt(id);
-
-  try {
-    const rumah = await getTypeRumahById(parsedId);
-
-    return {
-      title: `${rumah.namaType.replace(/_/g, " ")} - White House Premiere`,
-      description: rumah.deskripsi.substring(0, 160),
-    };
-  } catch (error) {
-    return {
-      title: "Product Not Found - White House Premiere",
-    };
-  }
+  return (
+    <div className="bg-primary min-h-screen">
+      <NavbarDetail />
+      <DetailProduct rumah={rumah} />
+    </div>
+  );
 }
