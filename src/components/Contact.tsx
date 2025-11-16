@@ -6,8 +6,7 @@ const Contact = () => {
   // Social media links
   const socialLinks = {
     whatsapp: "https://wa.me/6282246747133",
-    instagram: "https://instagram.com/@biidproperty.id",
-    youtube: "https://youtube.com/biidproperty.id",
+    instagram: "https://www.instagram.com/biidproperty.id/",
   };
 
   return (
@@ -45,25 +44,17 @@ const Contact = () => {
               <Icon icon="skill-icons:instagram" className="w-8 h-8" />
             </a>
             {/* YouTube dengan link */}
-            <a
-              href={socialLinks.youtube}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:scale-110 transition-transform"
-            >
-              <Icon
-                icon="logos:youtube-icon"
-                className="text-red-600 w-8 h-8"
-              />
-            </a>
           </div>
           <div className="w-1 bg-secondary h-10" />
         </div>
         {/* Kontak Text */}
-        <div className="text-white md:text-2xl space-y-6 mt-8 text-xl">
-          <p>+62 822-4674-7133 (DW)</p>
-          <p>@biidproperty.id</p>
-          <p>Rfh Property</p>
+        <div className="text-white md:text-2xl space-y-6 mt-6 text-xl py-2 flex flex-col">
+          <a href={socialLinks.whatsapp}>
+            <p>+62 822-4674-7133 (DW)</p>
+          </a>
+          <a href={socialLinks.instagram}>
+            <p>@biidproperty.id</p>
+          </a>
         </div>
       </div>
     </section>

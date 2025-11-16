@@ -62,10 +62,7 @@ const formSchema = z.object({
     .string()
     .min(1, "Luas bangunan harus diisi")
     .max(50, "Luas bangunan maksimal 50 karakter"),
-  deskripsi: z
-    .string()
-    .min(10, "Deskripsi minimal 10 karakter")
-    .max(255, "Deskripsi maksimal 255 karakter"),
+  deskripsi: z.string().min(10, "Deskripsi minimal 10 karakter"),
 });
 
 export default function EditDetailPage() {
@@ -529,9 +526,6 @@ export default function EditDetailPage() {
                             {...field}
                           />
                         </FormControl>
-                        <FormDescription>
-                          {field.value?.length || 0}/255 karakter
-                        </FormDescription>
                         <FormMessage />
                       </FormItem>
                     )}

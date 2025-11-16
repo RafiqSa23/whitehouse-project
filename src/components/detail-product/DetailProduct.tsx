@@ -43,9 +43,7 @@ const DetailProduct: React.FC<DetailProductProps> = ({ rumah }) => {
   const formatDescription = (description: string) => {
     if (!description) return "";
 
-    // Ganti newline dengan <br /> dan split untuk list items
     return description.split("\n").map((line, index) => {
-      // Jika line dimulai dengan dash atau bullet, beri styling khusus
       if (line.trim().startsWith("-") || line.trim().startsWith("•")) {
         return (
           <div key={index} className="flex items-start gap-2">
@@ -71,7 +69,7 @@ const DetailProduct: React.FC<DetailProductProps> = ({ rumah }) => {
   )} - ${formatCurrency(Number(rumah.harga))}`;
 
   // no Wa
-  const whatsappUrl = `https://wa.me/6281234567890?text=${encodeURIComponent(
+  const whatsappUrl = `https://wa.me/6282246747133?text=${encodeURIComponent(
     whatsappMessage
   )}`;
 

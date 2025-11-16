@@ -30,20 +30,12 @@ const Footer = () => {
               <Icon icon="logos:whatsapp-icon" className="w-8 h-8" />
             </a>
             <a
-              href="https://instagram.com/biidproperty.id"
+              href="https://www.instagram.com/biidproperty.id/"
               target="_blank"
               rel="noopener noreferrer"
               className="text-pink-500 hover:text-pink-400 transition-colors"
             >
               <Icon icon="skill-icons:instagram" className="w-8 h-8" />
-            </a>
-            <a
-              href="https://youtube.com/@biidproperty.id"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-red-600 hover:text-red-500 transition-colors"
-            >
-              <Icon icon="logos:youtube-icon" className="w-8 h-8" />
             </a>
           </div>
         </div>
