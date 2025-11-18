@@ -3,18 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-
-interface HalamanBeranda {
-  id: number;
-  nama: string;
-  gambar: string;
-  userId: number;
-  user: {
-    id: number;
-    nama: string;
-    username: string;
-  };
-}
+import { getSlideshowData, HalamanBeranda } from "@/lib/dataHome";
 
 const Home = () => {
   const [slides, setSlides] = useState<HalamanBeranda[]>([]);
@@ -23,31 +12,23 @@ const Home = () => {
 
   // Fetch data dari API
   useEffect(() => {
-    const fetchSlides = async () => {
+    const loadSlides = () => {
       try {
-        console.log("🔄 Fetching slides from API...");
-        const response = await fetch("/api/halamanBeranda", {
-          cache: "no-store",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
+        console.log("🔄 Loading slides from library...");
 
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const data = await response.json();
-
-        setSlides(data);
+        setTimeout(() => {
+          const data = getSlideshowData();
+          setSlides(data);
+          setIsLoading(false);
+          console.log("✅ Slides loaded successfully");
+        }, 1000);
       } catch (error) {
-        console.error("❌ Error fetching slides:", error);
-      } finally {
+        console.error("❌ Error loading slides:", error);
         setIsLoading(false);
       }
     };
 
-    fetchSlides();
+    loadSlides();
   }, []);
 
   useEffect(() => {

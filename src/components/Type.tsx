@@ -4,60 +4,24 @@ import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { Icon } from "@iconify/react";
-import { TypeRumah } from "@/types/supabase";
-import { getTypeRumah } from "@/lib/api-typerumah";
+
+import {
+  getHouseTypesData,
+  formatPriceIDR,
+  type HouseType,
+} from "@/lib/dataType";
 
 const Type = () => {
   const [showAll, setShowAll] = useState(false);
-  const [typeRumah, setTypeRumah] = useState<TypeRumah[]>([]);
-  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await getTypeRumah();
-        setTypeRumah(data);
-      } catch (error) {
-        console.error("Error fetching type rumah:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat("id-ID", {
-      style: "currency",
-      currency: "IDR",
-      minimumFractionDigits: 0,
-    }).format(amount);
-  };
+  const typeRumah: HouseType[] = getHouseTypesData();
 
   const formatTypeName = (typeName: string) => {
     return typeName.replace(/_/g, " ");
   };
-
-  if (loading) {
-    return (
-      <section id="type" className="bg-primary py-20">
-        <div className="mx-auto max-w-7xl px-3 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-secondary tracking-wide">
-              Type
-            </h1>
-          </div>
-          <div className="flex justify-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-secondary"></div>
-          </div>
-        </div>
-      </section>
-    );
-  }
 
   const displayedTypes = showAll ? typeRumah : typeRumah.slice(0, 6);
 
@@ -80,7 +44,7 @@ const Type = () => {
           grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 px-2 sm:px-4 lg:px-0
           `}
         >
-          {displayedTypes.map((rumah, index) => (
+          {displayedTypes.map((rumah) => (
             <Card
               key={rumah.id}
               className="bg-secondary overflow-hidden rounded-2xl shadow-lg border-0 hover:shadow-2xl transition-all duration-300 hover:scale-105 flex flex-col h-full" // TAMBAHKAN: flex flex-col h-full
@@ -88,7 +52,7 @@ const Type = () => {
               {/* Title */}
               <CardHeader className="pb-2">
                 <CardTitle className="text-lg font-bold text-gray-900 text-center capitalize">
-                  {formatTypeName(rumah.namaType)}
+                  {formatTypeName(rumah.name)}
                 </CardTitle>
               </CardHeader>
 
@@ -96,8 +60,8 @@ const Type = () => {
               <div className="relative w-full aspect-[4/3] px-4 py-2">
                 <div className="relative w-full h-full rounded-xl overflow-hidden">
                   <Image
-                    src={rumah.images[0]?.gambar || "/images/default-house.jpg"}
-                    alt={formatTypeName(rumah.namaType)}
+                    src={rumah.images[0]?.url || "/images/default-house.jpg"}
+                    alt={formatTypeName(rumah.name)}
                     fill
                     className="object-cover"
                     onError={(e) => {
@@ -112,7 +76,7 @@ const Type = () => {
                 {" "}
                 {/* TAMBAHKAN: flex flex-col flex-grow */}
                 <p className="text-lg md:text-xl font-bold text-gray-900">
-                  {formatCurrency(Number(rumah.harga))}
+                  {formatPriceIDR(Number(rumah.price))}
                 </p>
                 <p className="text-sm text-gray-800 mb-4">
                   Luas Bangunan:{" "}
@@ -125,7 +89,7 @@ const Type = () => {
                   <p className="text-sm text-gray-600 line-clamp-3">
                     {" "}
                     {/* UBAH: line-clamp-2 menjadi line-clamp-3 */}
-                    {rumah.deskripsi}
+                    {rumah.description}
                   </p>
                 </div>
                 {/* Tombol */}
@@ -133,7 +97,7 @@ const Type = () => {
                   {" "}
                   {/* TAMBAHKAN: mt-auto */}
                   <Link
-                    href={`/type/${rumah.namaType}`}
+                    href={`/type/${rumah.slug.toLowerCase}`}
                     className="flex-1 bg-[#0D1B4C] text-center py-2 rounded-md text-white hover:bg-[#1B2A6B] transition-colors text-sm"
                   >
                     Detail

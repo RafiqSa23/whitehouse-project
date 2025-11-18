@@ -6,22 +6,16 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Home, ChevronLeft, ChevronRight } from "lucide-react";
 import { Icon } from "@iconify/react";
-import { TypeRumah } from "@/types/supabase";
+import { HouseType, formatPriceIDR } from "@/lib/dataType";
 
 interface DetailProductProps {
-  rumah: TypeRumah;
+  rumah: HouseType;
 }
 
 const DetailProduct: React.FC<DetailProductProps> = ({ rumah }) => {
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
 
-  const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat("id-ID", {
-      style: "currency",
-      currency: "IDR",
-      minimumFractionDigits: 0,
-    }).format(amount);
-  };
+  const formatCurrency = formatPriceIDR;
 
   const formatTypeName = (typeName: string) => {
     return typeName.replace(/_/g, " ");
@@ -29,7 +23,7 @@ const DetailProduct: React.FC<DetailProductProps> = ({ rumah }) => {
 
   const images =
     rumah.images.length > 0
-      ? rumah.images.map((img) => img.gambar)
+      ? rumah.images.map((img) => img.url)
       : ["/images/default-house.jpg"];
 
   const nextImage = () => {
@@ -65,8 +59,8 @@ const DetailProduct: React.FC<DetailProductProps> = ({ rumah }) => {
 
   // Generate WhatsApp message
   const whatsappMessage = `Halo, saya tertarik dengan type ${formatTypeName(
-    rumah.namaType
-  )} - ${formatCurrency(Number(rumah.harga))}`;
+    rumah.name
+  )} - ${formatCurrency(Number(rumah.price))}`;
 
   // no Wa
   const whatsappUrl = `https://wa.me/6282246747133?text=${encodeURIComponent(
@@ -83,7 +77,7 @@ const DetailProduct: React.FC<DetailProductProps> = ({ rumah }) => {
           <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden bg-gray-100">
             <Image
               src={images[selectedImageIndex]}
-              alt={formatTypeName(rumah.namaType)}
+              alt={formatTypeName(rumah.name)}
               fill
               className="object-cover"
               priority
@@ -147,14 +141,14 @@ const DetailProduct: React.FC<DetailProductProps> = ({ rumah }) => {
             {/* Type Rumah */}
             <div>
               <h1 className="text-3xl font-bold text-secondary">
-                {formatTypeName(rumah.namaType).toUpperCase()}
+                {formatTypeName(rumah.name).toUpperCase()}
               </h1>
             </div>
 
             {/* Harga dan Luas Bangunan rata kiri */}
             <div>
               <p className="text-3xl md:text-4xl font-bold text-secondary mb-3">
-                {formatCurrency(Number(rumah.harga))}
+                {formatCurrency(Number(rumah.price))}
               </p>
               <p className="text-lg text-white font-bold">
                 Luas Bangunan:{" "}
@@ -164,7 +158,22 @@ const DetailProduct: React.FC<DetailProductProps> = ({ rumah }) => {
               </p>
               <h3 className="font-bold text-lg mt-4 text-white">Deskripsi :</h3>
               <div className="text-white">
-                {formatDescription(rumah.deskripsi)}
+                {formatDescription(rumah.description)}
+              </div>
+              <div className="mt-6">
+                <h3 className="font-bold text-lg text-white mb-3">
+                  Fitur Utama:
+                </h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  {rumah.features.map((feature, index) => (
+                    <div key={index} className="flex items-start gap-3">
+                      <div className="w-2 h-2 bg-secondary rounded-full mt-2 flex-shrink-0"></div>
+                      <span className="text-white text-sm">
+                        {feature.point}
+                      </span>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
