@@ -72,3 +72,18 @@ export async function deleteTypeRumah(id: number): Promise<void> {
     throw new Error(error.error || "Gagal menghapus type rumah");
   }
 }
+
+export async function getTypeRumahByNamaType(
+  namaType: string
+): Promise<TypeRumah | null> {
+  try {
+    const response = await fetch(
+      `/api/typerumah?namaType=${encodeURIComponent(namaType)}`
+    );
+    if (!response.ok) return null;
+    return await response.json();
+  } catch (error) {
+    console.error("Error fetching type rumah by namaType:", error);
+    return null;
+  }
+}

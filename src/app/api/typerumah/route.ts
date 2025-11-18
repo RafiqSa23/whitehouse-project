@@ -19,8 +19,42 @@ function validateData(namaType: string, luasBangunan: string): string[] {
   return errors;
 }
 
-export async function GET() {
+export async function GET(req: Request) {
   try {
+    const { searchParams } = new URL(req.url);
+    const namaType = searchParams.get("namaType");
+
+    console.log("🔍 API Request - namaType:", namaType);
+
+    if (namaType) {
+      const type = await prisma.typeRumah.findFirst({
+        where: {
+          namaType: namaType as TypeRumahEnum,
+        },
+        include: {
+          images: {
+            orderBy: { urutan: "asc" },
+          },
+          user: {
+            select: {
+              id: true,
+              nama: true,
+              username: true,
+            },
+          },
+        },
+      });
+
+      if (!type) {
+        return NextResponse.json(
+          { error: "Type rumah tidak ditemukan" },
+          { status: 404 }
+        );
+      }
+
+      return NextResponse.json(type);
+    }
+
     const typeRumah = await prisma.typeRumah.findMany({
       include: {
         images: {

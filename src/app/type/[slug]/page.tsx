@@ -2,29 +2,27 @@
 
 import DetailProduct from "@/components/detail-product/DetailProduct";
 import NavbarDetail from "@/components/navbar-detail/NavbarDetail";
-import { getTypeRumahById } from "@/lib/api-typerumah";
+import { getTypeRumahByNamaType } from "@/lib/api-typerumah";
 import { TypeRumah } from "@/types/supabase";
 import { useParams, notFound } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function Page() {
   const params = useParams();
-  const id = params.id as string;
+  const slug = params.slug as string;
   const [rumah, setRumah] = useState<TypeRumah | null>(null);
   const [loading, setLoading] = useState(true);
 
-  const parsedId = parseInt(id);
-
   useEffect(() => {
-    if (isNaN(parsedId)) {
+    if (!slug) {
       setLoading(false);
       return;
     }
 
     const fetchData = async () => {
       try {
-        console.log("🔄 Fetching data for ID:", parsedId);
-        const data = await getTypeRumahById(parsedId);
+        console.log("🔄 Fetching data for ID:", slug);
+        const data = await getTypeRumahByNamaType(slug);
         console.log("✅ Data received:", data);
         setRumah(data);
       } catch (error) {
@@ -35,7 +33,7 @@ export default function Page() {
     };
 
     fetchData();
-  }, [parsedId]);
+  }, [slug]);
 
   if (loading) {
     return (
@@ -45,7 +43,7 @@ export default function Page() {
     );
   }
 
-  if (!rumah || isNaN(parsedId)) {
+  if (!rumah || !slug) {
     notFound();
   }
 

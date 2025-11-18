@@ -133,7 +133,7 @@ const Type = () => {
                   {" "}
                   {/* TAMBAHKAN: mt-auto */}
                   <Link
-                    href={`/type/${rumah.id}`}
+                    href={`/type/${rumah.namaType}`}
                     className="flex-1 bg-[#0D1B4C] text-center py-2 rounded-md text-white hover:bg-[#1B2A6B] transition-colors text-sm"
                   >
                     Detail

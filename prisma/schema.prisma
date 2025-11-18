@@ -53,7 +53,7 @@ model TypeRumah {
   namaType     TypeRumahEnum
   harga        Decimal           @db.Decimal(15, 2)
   luasBangunan String            @db.VarChar(50)
-  deskripsi    String            @db.Text
+  deskripsi    String
   userId       Int
   user         User              @relation("UserHouseTypes", fields: [userId], references: [id], onDelete: Cascade)
   images       TypeRumahGambar[] @relation("HouseImages")
@@ -84,8 +84,8 @@ enum LoginStatus {
 }
 
 enum TypeRumahEnum {
-  Type_Luxury
-  Type_Premium
-  Type_Premium_A
-  Type_Premium_B
+  Luxury
+  Premiere
+  Premiere_A
+  Premium_B
 }
