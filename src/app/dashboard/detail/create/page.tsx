@@ -280,16 +280,16 @@ export default function CreateDetailPage() {
                               </SelectTrigger>
                             </FormControl>
                             <SelectContent>
-                              <SelectItem value="Type_Luxury">
+                              <SelectItem value="Luxury">
                                 Type Luxury
                               </SelectItem>
-                              <SelectItem value="Type_Premium">
-                                Type Premium
+                              <SelectItem value="Premiere">
+                                Type Premiere
                               </SelectItem>
-                              <SelectItem value="Type_Premium_A">
-                                Type Premium A
+                              <SelectItem value="Premiere_A">
+                                Type Premiere A
                               </SelectItem>
-                              <SelectItem value="Type_Premium_B">
+                              <SelectItem value="Premium_B">
                                 Type Premium B
                               </SelectItem>
                             </SelectContent>
